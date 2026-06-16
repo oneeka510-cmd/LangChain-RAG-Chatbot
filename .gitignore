@@ -5,3 +5,4 @@ __pycache__/
 .env
 chroma_db/
 int_chroma_db/
+github_commands.txt
