@@ -47,6 +47,7 @@ chain= CHAT_PROMPT| chat_model| parser
 
 
 #CHATTING LOGIC
+chat_history=[]
 
 while True:
      question=input("\n\nENTER YOUR QUESTION (To end conversation type - exit)  :  ")
@@ -72,13 +73,19 @@ while True:
                 # f"{ref.metadata['source']} | Page {ref.metadata['page_label']}"
                 f"{os.path.basename(ref.metadata['source'])} | Page {ref.metadata['page_label']}"
                  )
-    
+        history = "\n\n".join(chat_history)
+
         answer= chain.invoke({
+            "history": history,
             "context": context,
             "question": question
         }
         )
-        
+
+        chat_history.append(
+        f"User: {question}\nAssistant: {answer}"
+)
+
         if "could not find relevant information" in answer.lower():
              print(answer)
         else:

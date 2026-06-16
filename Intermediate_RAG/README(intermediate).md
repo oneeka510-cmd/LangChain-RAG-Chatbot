@@ -1,11 +1,12 @@
 # Intermediate RAG Chatbot using LangChain
 ![Intermediate version RAG chat screenshot](image.png)
+![Also intermediate version showing context resolution](image.png)
 
 ## Overview
 
 This project is an intermediate Retrieval-Augmented Generation (RAG) chatbot built using LangChain, ChromaDB, Hugging Face Embeddings, and a Hugging Face LLM.
 
-Unlike a basic RAG implementation that works on a single PDF, this chatbot can ingest and retrieve information from an entire directory of PDF documents. It uses semantic search, Maximum Marginal Relevance (MMR) retrieval, source citations, and a persistent vector database to provide grounded answers.
+Unlike a basic RAG implementation that works on a single PDF, this chatbot can ingest and retrieve information from an entire directory of PDF documents. It uses semantic search, Maximum Marginal Relevance (MMR) retrieval, source citations, conversational memory, and a persistent vector database to provide grounded answers.
 
 ---
 
@@ -34,15 +35,34 @@ Unlike a basic RAG implementation that works on a single PDF, this chatbot can i
 
 * Displays source document names and page numbers.
 * Helps users verify answers against original documents.
+* Citations are generated from retrieved metadata rather than the LLM to avoid hallucinations.
 
 ### Persistent Chroma Database
 
 * Embeddings are generated once during ingestion.
 * ChromaDB is stored locally and reused across sessions.
 
+### Conversational Memory
+
+* Maintains chat history across multiple turns.
+* Supports follow-up questions such as:
+
+```text
+User: What is GIS?
+
+User: What are its applications?
+```
+
+* Previous conversation is injected into the prompt to provide conversational context.
+* Memory helps interpret references such as:
+
+  * "it"
+  * "they"
+  * "that topic"
+
 ### LCEL Chains
 
-* Uses LangChain Expression Language (LCEL):
+Uses LangChain Expression Language (LCEL):
 
 ```text
 PromptTemplate
@@ -54,11 +74,13 @@ Output Parser
 
 ### Retrieval Debug Mode
 
-* Optional debug mode for inspecting:
+Optional debug mode for inspecting:
 
-  * Retrieved documents
-  * Metadata
-  * Retrieved chunk content
+* Retrieved documents
+* Metadata
+* Retrieved chunk content
+
+This helps determine whether issues originate from retrieval or generation.
 
 ---
 
@@ -77,8 +99,11 @@ ChromaDB
       ↓
 Retriever (MMR)
       ↓
-Context Creation
+Retrieved Context
+
+Conversation History
       ↓
+
 Prompt Template
       ↓
 LLM
@@ -144,20 +169,26 @@ Chunk 3
 context += doc.page_content
 ```
 
-### 5. Prompt is sent to the LLM
+### 5. Conversation history is prepared
+
+```python
+history = "\n\n".join(chat_history)
+```
+
+### 6. Prompt is sent to the LLM
 
 ```python
 chain.invoke(...)
 ```
 
-### 6. Response is generated
+### 7. Response is generated
 
 ```text
 GIS is a system used for storing, analyzing,
 and visualizing geographic information.
 ```
 
-### 7. Sources are displayed
+### 8. Sources are displayed
 
 ```text
 Sources:
@@ -181,6 +212,20 @@ geographic data.
 Sources:
 GIS_notes.pdf | Page 3
 GIS_notes.pdf | Page 4
+
+
+ENTER YOUR QUESTION:
+
+What are its applications?
+
+- Urban planning
+- Transportation management
+- Environmental monitoring
+- Resource management
+
+Sources:
+GIS_notes.pdf | Page 5
+GIS_Assignment.pdf | Page 2
 ```
 
 ---
@@ -198,8 +243,42 @@ Through this project I learned:
 * Maximum Marginal Relevance (MMR)
 * Prompt engineering for RAG
 * Source citation handling
+* Metadata management
 * LCEL chains
 * Retrieval debugging techniques
+* Multi-turn conversation handling
+* Conversation memory management
+* Context vs Memory separation
+
+---
+
+## Key Concepts Learned
+
+### Retrieval vs Memory
+
+One of the most important concepts learned during this project was the distinction between retrieval and memory.
+
+#### Retrieval
+
+Responsible for:
+
+* Fetching relevant information from documents
+* Grounding answers in the knowledge base
+* Providing source citations
+
+#### Memory
+
+Responsible for:
+
+* Maintaining conversational flow
+* Resolving references such as:
+
+  * "it"
+  * "they"
+  * "that topic"
+* Supporting follow-up questions
+
+Memory improves conversation quality, but factual information should still come from retrieved documents rather than previous responses.
 
 ---
 
@@ -208,14 +287,23 @@ Through this project I learned:
 * Retrieval confidence scoring
 * Score-threshold filtering
 * Streamlit UI
-* Conversational memory
 * Hybrid Search (Keyword + Vector Search)
 * Reranking
 * Full LCEL retrieval chains
+* Memory summarization for long conversations
+* Evaluation metrics for retrieval quality
 
 ---
 
 ## Key Takeaway
 
-A good RAG system is not only about generating answers. It is also about retrieving the correct information, grounding responses in source documents, and providing transparency through citations.
+A good RAG system is not only about generating answers.
 
+It is equally about:
+
+* Retrieving the correct information
+* Grounding responses in source documents
+* Maintaining conversational context
+* Providing transparency through citations
+
+This project helped bridge the gap between a basic PDF chatbot and a more realistic knowledge-grounded conversational AI system.

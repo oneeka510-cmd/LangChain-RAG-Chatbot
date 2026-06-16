@@ -2,8 +2,11 @@
 
 ![Basic version](<Basic_RAG/Screenshot 2026-06-14 210947.png>)
 
-
 ![Intermediate Version](Intermediate_RAG/image.png)
+
+![Also intermediate version showing context resolution](image.png)
+
+
 ## Overview
 
 This repository documents my journey of learning and building Retrieval-Augmented Generation (RAG) systems using LangChain.
@@ -178,6 +181,39 @@ Improved prompt design to:
 * Refuse answers not present in the knowledge base
 
 ---
+### Conversational Memory
+
+Added chat history support to enable multi-turn conversations.
+
+Instead of treating every question independently, the chatbot now maintains conversation history and injects it into the prompt.
+
+Example:
+
+User:
+
+```text
+What is GIS?
+```
+
+Assistant:
+
+```text
+GIS is a Geographic Information System.
+```
+
+User:
+
+```text
+What are its applications?
+```
+
+The chatbot can resolve references such as "its" by using previous conversation history while continuing to ground factual answers in retrieved documents.
+
+This introduced an important distinction between:
+
+* Retrieval → Provides factual knowledge from documents.
+* Memory → Provides conversational context from previous interactions.
+---
 
 ## Architecture
 
@@ -194,15 +230,17 @@ ChromaDB
       ↓
 Retriever (MMR)
       ↓
-Context Creation
+Retrieved Context
+
+Conversation History
       ↓
-Prompt
+
+Prompt Template
       ↓
 LLM
       ↓
 Answer + Citations
 ```
-
 ---
 
 ## Key Concepts Learned
@@ -215,6 +253,9 @@ Answer + Citations
 * Metadata management
 * Retrieval debugging
 * Better prompt design
+* Conversational memory
+* Multi-turn dialogue handling
+* Context vs Memory separation
 
 ---
 
@@ -248,9 +289,9 @@ Determine whether retrieved documents are relevant enough before generating an a
 
 Avoid answering when retrieval confidence is too low.
 
-### Conversational Memory
+### Memory Summarization
 
-Enable follow-up questions and multi-turn conversations.
+Enable follow-up questions and multi-turn conversations for long conversations too.
 
 ### Hybrid Search
 
