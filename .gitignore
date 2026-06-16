@@ -1,0 +1,7 @@
+
+lvenvy/
+__pycache__/
+*.pyc
+.env
+chroma_db/
+int_chroma_db/
