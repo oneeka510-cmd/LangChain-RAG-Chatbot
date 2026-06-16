@@ -1,5 +1,9 @@
 # RAG Learning Journey: From Basic to Advanced Retrieval-Augmented Generation
 
+![Basic version](<Basic_RAG/Screenshot 2026-06-14 210947.png>)
+
+
+![Intermediate Version](Intermediate_RAG/image.png)
 ## Overview
 
 This repository documents my journey of learning and building Retrieval-Augmented Generation (RAG) systems using LangChain.
