@@ -1,4 +1,4 @@
-# RAG Learning Journey: From Basic to Advanced Retrieval-Augmented Generation
+# RAG with LangChain Learning Journey: From Basic to Advanced Retrieval-Augmented Generation
 
 ![Basic version](<Basic_RAG/Screenshot 2026-06-14 210947.png>)
 
