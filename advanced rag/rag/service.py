@@ -25,14 +25,33 @@ def greeting_response(question: str) -> str | None:
         return "Hi! Ask me anything about your documents."
     return None
 
+
+def clean_document_text(text: str) -> str:
+    """Remove source-formatting syntax that should not leak into answers or previews."""
+    return re.sub(r"(?m)^\s{0,3}#{1,6}\s+", "", text).strip()
+
+
+def cited_sources(answer: str, sources: list[dict]) -> list[dict]:
+    citations = {int(value) for value in re.findall(r"\[(\d+)]", answer)}
+    return [source for source in sources if source["citation"] in citations]
+
+
+def ensure_citations(answer: str, sources: list[dict]) -> tuple[str, list[dict]]:
+    matched = cited_sources(answer, sources)
+    if matched or not sources:
+        return answer, matched
+    return f"{answer.rstrip()} [1]", sources[:1]
+
 ANSWER_PROMPT = ChatPromptTemplate.from_messages(
     [
         (
             "system",
             """You are a careful knowledge-base assistant. Answer only from the supplied
 context. Conversation memory may resolve references, but is not factual evidence.
-Use concise prose or bullets. Cite factual claims with the matching context number,
-for example [1]. If context is incomplete, say so. Never invent a citation.""",
+Write clean Markdown. Keep the answer concise. If bullets help, place each item on
+its own line and use a hyphen. Do not escape Markdown characters. Cite factual claims
+with the matching context number, for example [1]. Do not repeat context labels,
+document titles, or headings. If context is incomplete, say so. Never invent a citation.""",
         ),
         (
             "human",
@@ -96,7 +115,7 @@ class AdvancedRAG:
     def _prepare_generation(self, payload: dict) -> dict:
         results = payload["results"]
         context = "\n\n".join(
-            f"[{index}] {item.document.page_content}"
+            f"[{index}] {clean_document_text(item.document.page_content)}"
             for index, item in enumerate(results, start=1)
         )
         return {"question": payload["question"], "history": payload["history"], "context": context}
@@ -112,7 +131,7 @@ class AdvancedRAG:
                     "source": metadata.get("source", "Unknown"),
                     "page": int(metadata.get("page", 0)) + 1,
                     "score": round(item.final_score, 3),
-                    "preview": item.document.page_content[:240].strip(),
+                    "preview": clean_document_text(item.document.page_content)[:240],
                 }
             )
         return sources
@@ -139,7 +158,7 @@ class AdvancedRAG:
                 {"question": question, "history": memory.render(), "results": results}
             )
             memory.add(question, answer, self.llm)
-            sources = self._sources(results)
+            answer, sources = ensure_citations(answer, self._sources(results))
         return {"answer": answer, "confidence": score, "sources": sources}
 
     def inspect(self, question: str) -> dict:

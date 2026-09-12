@@ -10,6 +10,43 @@ function escapeHtml(value) {
   return node.innerHTML;
 }
 
+function renderInline(value) {
+  return escapeHtml(value)
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>");
+}
+
+function renderMarkdown(value) {
+  const normalized = value
+    .replace(/\\([*+_#-])/g, "$1")
+    .replace(/\t\+/g, "\n- ");
+  const lines = normalized.split(/\r?\n/);
+  const output = [];
+  let listOpen = false;
+
+  const closeList = () => {
+    if (listOpen) output.push("</ul>");
+    listOpen = false;
+  };
+
+  lines.forEach((rawLine) => {
+    const line = rawLine.trim();
+    const bullet = line.match(/^[-*+]\s+(.+)$/);
+    if (bullet) {
+      if (!listOpen) output.push("<ul>");
+      listOpen = true;
+      output.push(`<li>${renderInline(bullet[1])}</li>`);
+      return;
+    }
+    closeList();
+    if (!line) return;
+    const withoutHeadingMarker = line.replace(/^#{1,6}\s+/, "");
+    output.push(`<p>${renderInline(withoutHeadingMarker)}</p>`);
+  });
+  closeList();
+  return output.join("");
+}
+
 function addMessage(role, text, result = null) {
   const article = document.createElement("article");
   article.className = `message ${role}`;
@@ -17,9 +54,10 @@ function addMessage(role, text, result = null) {
   if (role === "user") {
     article.textContent = text;
   } else {
-    article.innerHTML = `<div class="answer">${escapeHtml(text)}</div>`;
+    article.innerHTML = `<div class="answer">${renderMarkdown(text)}</div>`;
     if (result?.sources.length) {
-      article.innerHTML += `<div class="meta">${result.sources.length} sources</div>`;
+      const sourceLabel = result.sources.length === 1 ? "source" : "sources";
+      article.innerHTML += `<div class="meta">${result.sources.length} ${sourceLabel}</div>`;
       const sources = document.createElement("div");
       sources.className = "sources";
       result.sources.forEach((source) => {

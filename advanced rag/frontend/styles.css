@@ -90,7 +90,12 @@ h1 { margin: 0; font: 500 clamp(34px, 5vw, 54px)/1.02 "Newsreader", serif; lette
 .message { max-width: 82%; }
 .message.user { justify-self: end; background: var(--green); color: white; padding: 12px 16px; border-radius: 16px 16px 3px 16px; }
 .message.assistant { justify-self: start; width: 82%; }
-.answer { border-left: 2px solid var(--mint); padding-left: 17px; line-height: 1.65; white-space: pre-wrap; }
+.answer { border-left: 2px solid var(--mint); padding-left: 17px; line-height: 1.65; }
+.answer p { margin: 0 0 10px; }
+.answer p:last-child { margin-bottom: 0; }
+.answer ul { margin: 8px 0; padding-left: 22px; }
+.answer li + li { margin-top: 5px; }
+.answer code { padding: 1px 5px; border-radius: 5px; background: var(--panel); font-size: .9em; }
 .meta { color: var(--muted); font-size: 12px; margin-top: 9px; }
 .sources { margin-top: 12px; display: grid; gap: 7px; }
 .source { background: var(--panel); border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px; }
