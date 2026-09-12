@@ -22,7 +22,7 @@ def greeting_response(question: str) -> str | None:
         question,
         flags=re.IGNORECASE,
     ):
-        return "Hi! Ask me anything about your GIS documents."
+        return "Hi! Ask me anything about your documents."
     return None
 
 ANSWER_PROMPT = ChatPromptTemplate.from_messages(

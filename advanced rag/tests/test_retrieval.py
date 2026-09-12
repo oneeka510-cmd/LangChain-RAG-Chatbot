@@ -24,6 +24,6 @@ def test_confidence_uses_top_score_and_support():
 
 
 def test_greetings_are_handled_without_retrieval():
-    assert greeting_response("hi") == "Hi! Ask me anything about your GIS documents."
-    assert greeting_response("Hello there!") == "Hi! Ask me anything about your GIS documents."
-    assert greeting_response("What is GIS?") is None
+    assert greeting_response("hi") == "Hi! Ask me anything about your documents."
+    assert greeting_response("Hello there!") == "Hi! Ask me anything about your documents."
+    assert greeting_response("What is vector data?") is None
