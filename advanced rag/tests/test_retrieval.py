@@ -1,6 +1,7 @@
 from langchain_core.documents import Document
 
 from rag.retrieval import ScoredDocument, confidence, minmax, tokenize
+from rag.service import greeting_response
 
 
 def test_tokenize_normalizes_words_and_numbers():
@@ -21,3 +22,8 @@ def test_confidence_uses_top_score_and_support():
     assert confidence(results) == 0.71
     assert confidence([]) == 0.0
 
+
+def test_greetings_are_handled_without_retrieval():
+    assert greeting_response("hi") == "Hi! Ask me anything about your GIS documents."
+    assert greeting_response("Hello there!") == "Hi! Ask me anything about your GIS documents."
+    assert greeting_response("What is GIS?") is None

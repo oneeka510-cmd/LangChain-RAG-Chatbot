@@ -1,4 +1,5 @@
 import os
+import re
 
 from langchain_chroma import Chroma
 from langchain_core.output_parsers import StrOutputParser
@@ -13,6 +14,16 @@ from .retrieval import HybridRetriever, ScoredDocument, confidence
 
 
 REFUSAL = "I could not find relevant information in the knowledge base."
+
+
+def greeting_response(question: str) -> str | None:
+    if re.fullmatch(
+        r"\s*(hi|hello|hey|hi there|hello there|good morning|good afternoon|good evening)[!,.?\s]*",
+        question,
+        flags=re.IGNORECASE,
+    ):
+        return "Hi! Ask me anything about your GIS documents."
+    return None
 
 ANSWER_PROMPT = ChatPromptTemplate.from_messages(
     [
@@ -109,19 +120,26 @@ class AdvancedRAG:
     def ask(self, question: str, threshold: float | None = None, memory=None) -> dict:
         threshold = self.settings.confidence_threshold if threshold is None else threshold
         memory = memory or SummarizingMemory()
+        greeting = greeting_response(question)
+        if greeting:
+            memory.add(question, greeting)
+            return {"answer": greeting, "confidence": 1.0, "sources": []}
+
         retrieved = self.retrieval_chain.invoke({"question": question})
         results = retrieved["results"]
         score = retrieved["confidence"]
-        sources = self._sources(results)
         if score < threshold:
             answer = REFUSAL
+            sources = []
         elif not self.generation_chain:
             answer = "Set HUGGINGFACEHUB_ACCESS_TOKEN to generate an answer. Retrieval succeeded."
+            sources = self._sources(results)
         else:
             answer = self.generation_chain.invoke(
                 {"question": question, "history": memory.render(), "results": results}
             )
             memory.add(question, answer, self.llm)
+            sources = self._sources(results)
         return {"answer": answer, "confidence": score, "sources": sources}
 
     def inspect(self, question: str) -> dict:
