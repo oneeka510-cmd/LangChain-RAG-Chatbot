@@ -56,7 +56,8 @@ function addMessage(role, text, result = null) {
   } else {
     article.innerHTML = `<div class="answer">${renderMarkdown(text)}</div>`;
     if (result?.sources.length) {
-      article.innerHTML += `<div class="meta">${result.sources.length} source(s)</div>`;
+      const sourceLabel = result.sources.length === 1 ? "source" : "sources";
+      article.innerHTML += `<div class="meta">${result.sources.length} ${sourceLabel}</div>`;
       const sources = document.createElement("div");
       sources.className = "sources";
       result.sources.forEach((source) => {
