@@ -5,4 +5,4 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 evaluation/results.json
-work-edge-profile/
+work-edge-profile*/

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Advanced RAG</title>
+  <title>AI Assistant</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/styles.css">
@@ -10,9 +10,12 @@
 <body>
 <div class="shell">
   <aside class="sidebar">
-    <div><a class="brand" href="/"><span class="mark">A</span><span>Advanced RAG</span></a>
-      <p class="eyebrow">Knowledge workspace</p><nav><div class="nav active">⌁ &nbsp; Ask documents</div><div class="nav">◇ &nbsp; Hybrid retrieval</div><div class="nav">◎ &nbsp; Grounded sources</div></nav>
-    </div>
+    <a class="brand" href="/" aria-label="AI Assistant home">
+      <span class="bot-logo" aria-hidden="true">
+        <svg viewBox="0 0 32 32" role="img"><path d="M16 5V2m-2 0h4M8 8h16a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H13l-6 4v-4a5 5 0 0 1-4-5v-8a5 5 0 0 1 5-5Z"/><circle cx="11" cy="17" r="1.7"/><circle cx="21" cy="17" r="1.7"/><path d="M12 21h8"/></svg>
+      </span>
+      <span>AI Assistant</span>
+    </a>
     <div class="controls">
       <label for="threshold">Minimum confidence <output id="thresholdValue">38%</output></label>
       <input id="threshold" type="range" min="0" max="1" value=".38" step=".01">
@@ -21,14 +24,13 @@
     </div>
   </aside>
   <main>
-    <header><div><p class="eyebrow">Document intelligence</p><h1>Ask your knowledge base.</h1><p class="lede">Answers are retrieved, reranked, confidence-checked, and cited.</p></div><div class="method"><i></i> Hybrid search</div></header>
+    <header><div class="hero-copy"><p class="eyebrow">Your document assistant</p><h1>Ask your knowledge base.</h1><p class="lede">Get clear answers grounded in your documents.</p></div></header>
     <section id="conversation" class="conversation" aria-live="polite">
-      <div id="empty" class="empty"><div class="orb">⌁</div><h2>Start with a precise question</h2><p>Try an example from the included sample documents.</p>
-        <div class="suggestions"><button>How does hybrid search improve retrieval?</button><button>What is NDVI used for?</button><button>How should a RAG system be evaluated?</button></div>
+      <div id="empty" class="empty"><div class="orb">⌁</div><h2>Start with a GIS question</h2><p>Try one of these questions from the included documents.</p>
+        <div class="suggestions"><button>What is a Geographic Information System?</button><button>How do vector and raster data differ?</button><button>What are the common applications of GIS?</button></div>
       </div>
     </section>
     <form id="chatForm" class="composer"><textarea id="question" rows="1" maxlength="2000" placeholder="Ask a question about your documents…" required></textarea><button id="send" type="submit">↑</button><p>Enter to send · Shift + Enter for a new line</p></form>
   </main>
 </div><script src="/static/app.js" defer></script>
 </body></html>
-

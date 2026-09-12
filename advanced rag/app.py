@@ -37,7 +37,7 @@ async def lifespan(_: FastAPI):
     yield
 
 
-app = FastAPI(title="Advanced RAG API", version="1.0.0", lifespan=lifespan)
+app = FastAPI(title="AI Assistant API", version="1.0.0", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 
@@ -93,4 +93,3 @@ def chat(request: ChatRequest):
 def clear_session(request: SessionRequest):
     state["sessions"].pop(request.session_id, None)
     return {"cleared": True}
-
