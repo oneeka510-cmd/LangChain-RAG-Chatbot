@@ -9,21 +9,16 @@
 </head>
 <body>
 <div class="shell">
-  <aside class="sidebar">
-    <a class="brand" href="/" aria-label="AI Assistant home">
-      <span class="bot-logo" aria-hidden="true">
-        <svg viewBox="0 0 32 32" role="img"><path d="M16 5V2m-2 0h4M8 8h16a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H13l-6 4v-4a5 5 0 0 1-4-5v-8a5 5 0 0 1 5-5Z"/><circle cx="11" cy="17" r="1.7"/><circle cx="21" cy="17" r="1.7"/><path d="M12 21h8"/></svg>
-      </span>
-      <span>AI Assistant</span>
-    </a>
-    <div class="controls">
-      <label for="threshold">Minimum confidence <output id="thresholdValue">38%</output></label>
-      <input id="threshold" type="range" min="0" max="1" value=".38" step=".01">
-      <button id="reindex" class="secondary">Rebuild index</button><button id="clear" class="quiet">Clear conversation</button>
-      <div id="status" class="status"><span></span> Checking index…</div>
-    </div>
-  </aside>
   <main>
+    <div class="topbar">
+      <a class="brand" href="/" aria-label="AI Assistant home">
+        <span class="bot-logo" aria-hidden="true">
+          <svg viewBox="0 0 32 32" role="img"><path d="M16 5V2m-2 0h4M8 8h16a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H13l-6 4v-4a5 5 0 0 1-4-5v-8a5 5 0 0 1 5-5Z"/><circle cx="11" cy="17" r="1.7"/><circle cx="21" cy="17" r="1.7"/><path d="M12 21h8"/></svg>
+        </span>
+        <span>AI Assistant</span>
+      </a>
+      <button id="clear" class="clear-button" type="button" aria-label="Clear chat">Clear chat</button>
+    </div>
     <header><div class="hero-copy"><p class="eyebrow">Your document assistant</p><h1>Ask your knowledge base.</h1><p class="lede">Get clear answers grounded in your documents.</p></div></header>
     <section id="conversation" class="conversation" aria-live="polite">
       <div id="empty" class="empty"><div class="orb">⌁</div><h2>Start with a GIS question</h2><p>Try one of these questions from the included documents.</p>
