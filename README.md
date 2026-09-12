@@ -375,4 +375,4 @@ Langchain_Bot/
 
 This repository is not just a collection of RAG projects. It is a record of the progression from understanding basic retrieval concepts to building increasingly capable and reliable knowledge-grounded AI systems.
 
-Each version focuses on solving limitations discovered in the previous one while keeping the implementation understandable and educational.
+Each version focuses on solving limitations discovered in the previous one while keeping the implementation understandable.
