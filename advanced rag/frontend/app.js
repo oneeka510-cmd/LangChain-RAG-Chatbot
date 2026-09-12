@@ -11,7 +11,6 @@ function escapeHtml(value) {
 }
 
 function addMessage(role, text, result = null) {
-  $("#empty")?.remove();
   const article = document.createElement("article");
   article.className = `message ${role}`;
 
@@ -79,13 +78,6 @@ question.addEventListener("keydown", (event) => {
   }
 });
 
-document.querySelectorAll(".suggestions button").forEach((button) => {
-  button.addEventListener("click", () => {
-    question.value = button.textContent;
-    $("#chatForm").requestSubmit();
-  });
-});
-
 $("#clear").addEventListener("click", async () => {
   await api("/api/clear", {
     method: "POST",
@@ -93,4 +85,3 @@ $("#clear").addEventListener("click", async () => {
   });
   location.reload();
 });
-

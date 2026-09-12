@@ -19,12 +19,8 @@
       </a>
       <button id="clear" class="clear-button" type="button" aria-label="Clear chat">Clear chat</button>
     </div>
-    <header><div class="hero-copy"><p class="eyebrow">Your document assistant</p><h1>Ask your knowledge base.</h1><p class="lede">Get clear answers grounded in your documents.</p></div></header>
-    <section id="conversation" class="conversation" aria-live="polite">
-      <div id="empty" class="empty"><div class="orb">⌁</div><h2>Start with a GIS question</h2><p>Try one of these questions from the included documents.</p>
-        <div class="suggestions"><button>What is a Geographic Information System?</button><button>How do vector and raster data differ?</button><button>What are the common applications of GIS?</button></div>
-      </div>
-    </section>
+    <header><div class="hero-copy"><p class="eyebrow">Your document assistant</p><h1>Ask your knowledge base.</h1></div></header>
+    <section id="conversation" class="conversation" aria-live="polite"></section>
     <form id="chatForm" class="composer"><textarea id="question" rows="1" maxlength="2000" placeholder="Ask a question about your documents…" required></textarea><button id="send" type="submit">↑</button><p>Enter to send · Shift + Enter for a new line</p></form>
   </main>
 </div><script src="/static/app.js" defer></script>
