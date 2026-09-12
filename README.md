@@ -6,6 +6,8 @@
 
 ![Also intermediate version showing context resolution](image.png)
 
+![Advanced RAG web interface](<advanced rag/assets/frontend-preview.png>)
+
 
 ## Overview
 
@@ -24,7 +26,7 @@ Basic_RAG
     ↓
 Intermediate_RAG
     ↓
-Advanced_RAG (Planned)
+Advanced RAG (Implemented)
 ```
 
 ---
@@ -271,15 +273,15 @@ Understanding retrieval became more important than simply changing LLMs.
 
 ---
 
-# Future Work (Advanced RAG)
+# Phase 3: Advanced RAG
 
-The next phase of the project will focus on more advanced retrieval and production-ready features.
+The advanced version is implemented in [`advanced rag/`](<advanced rag/README.md>). It builds on the Intermediate RAG architecture while keeping the earlier learning phases unchanged.
 
-## Planned Improvements
+## Implemented Improvements
 
-### Streamlit UI
+### Minimal Web UI
 
-Replace the command-line interface with a web-based chat experience.
+A responsive chat interface built with raw HTML, CSS, and JavaScript, served by a small FastAPI backend.
 
 ### Retrieval Confidence Scoring
 
@@ -321,6 +323,8 @@ Measure:
 * Answer quality
 * Hallucination rate
 
+The advanced folder also includes five sample knowledge documents, an automated retrieval test set, unit tests, portable project-relative paths, and complete setup instructions.
+
 ---
 
 # Tech Stack
@@ -350,6 +354,17 @@ Langchain_Bot/
 │   ├── int_chat.py
 │   ├── int_ingest.py
 │   ├── int_prompt.py
+│   └── README.md
+│
+├── advanced rag/
+│   ├── app.py
+│   ├── ingest.py
+│   ├── evaluate.py
+│   ├── rag/
+│   ├── frontend/
+│   ├── sample_documents/
+│   ├── evaluation/
+│   ├── tests/
 │   └── README.md
 │
 └── README.md

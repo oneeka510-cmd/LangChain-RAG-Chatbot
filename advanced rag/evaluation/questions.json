@@ -1,0 +1,9 @@
+[
+  {"question":"What does a projected CRS make easier to calculate?","expected_source":"gis_foundations.md","expected_terms":["distance","area"]},
+  {"question":"What is NDVI used to monitor?","expected_source":"remote_sensing.md","expected_terms":["vegetation","crop"]},
+  {"question":"Why combine BM25 with dense vector search?","expected_source":"rag_retrieval.md","expected_terms":["semantic","keyword"]},
+  {"question":"What does hit rate measure?","expected_source":"rag_evaluation.md","expected_terms":["relevant","top"]},
+  {"question":"Can conversation memory be treated as factual evidence?","expected_source":"responsible_ai.md","expected_terms":["memory","evidence"]},
+  {"question":"Who won the 1998 football World Cup?","expected_source":null,"expected_terms":[]}
+]
+
