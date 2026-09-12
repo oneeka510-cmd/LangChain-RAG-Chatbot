@@ -1,13 +1,12 @@
 # Progressive RAG Development with LangChain
 
+![Advanced RAG web interface](<advanced rag/assets/frontend-preview.png>)
+
 ![Basic version](<Basic_RAG/Screenshot 2026-06-14 210947.png>)
 
 ![Intermediate Version](Intermediate_RAG/image.png)
 
 ![Also intermediate version showing context resolution](image.png)
-
-![Advanced RAG web interface](<advanced rag/assets/frontend-preview.png>)
-
 
 ## Overview
 
